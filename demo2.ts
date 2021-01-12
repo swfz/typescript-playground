@@ -49,13 +49,4 @@ const aggregateFn = (acc: Summary, current: Row): Summary => {
 
 const summary = rows.reduce(aggregateFn, {} as Summary);
 
-// const summary = rows.reduce<Summary>((acc, current): Summary => {
-//   const name = current.name;
-//   const date = current.date;
-//   const aggregated = acc?.[name]?.[date] ? {...acc[name][date], sum: acc[name][date].sum + current.value} : {...{name,date}, sum: current.value}
-//   const updateValue: Record<string, AggregatedRow> = {...acc[name], [date]: aggregated };
-//
-//   return {...acc, [name]: updateValue};
-// }, {} as Summary);
-
 console.log(summary);
