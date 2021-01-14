@@ -36,9 +36,11 @@ const rows: Row[] = [
 const aggregateFn = (acc: Summary, current: Row): Summary => {
   const name = current.name;
   const date = current.date;
+  // name,dateキーの更新用データを生成 Optional Chainingで既に該当キーに値があるか判定しあれば計算して結果をマージ、なければ生成する
   const aggregated = acc?.[name]?.[date]
     ? { ...acc[name][date], sum: acc[name][date].sum + current.value }
     : { ...{ name, date }, sum: current.value };
+  // nameキーの更新用データを生成
   const updateValue: Record<string, AggregatedRow> = {
     ...acc[name],
     [date]: aggregated,
@@ -50,3 +52,17 @@ const aggregateFn = (acc: Summary, current: Row): Summary => {
 const summary = rows.reduce(aggregateFn, {} as Summary);
 
 console.log(summary);
+// {
+//   foo: {
+//     '2021-01-02': { name: 'foo', date: '2021-01-02', sum: 4 },
+//     '2021-01-03': { name: 'foo', date: '2021-01-03', sum: 7 }
+//   },
+//   bar: {
+//     '2021-01-02': { name: 'bar', date: '2021-01-02', sum: 3 },
+//     '2021-01-03': { name: 'bar', date: '2021-01-03', sum: 4 }
+//   },
+//   baz: {
+//     '2021-01-02': { name: 'baz', date: '2021-01-02', sum: 6 },
+//     '2021-01-03': { name: 'baz', date: '2021-01-03', sum: 4 }
+//   }
+// }
